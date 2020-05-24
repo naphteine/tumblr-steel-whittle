@@ -1,19 +1,4 @@
-<!--
-	空和音
-	Steel Whittle Theme - Copyright (c) 2020
-	2020-05-23
-
-	Future plans:
-		Better color scheme
-		Mouse magic stars
-		Background music
-		Post view screen
-		Previous - Next buttons size
-
-		Improve post listing:
-			Boxed with color
-			Date & time top right
--->
+<!-- Steel Whittle Theme - Copyright (c) 2020 空和音 -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -26,8 +11,10 @@
         {/block:Description}
 
 		<!-- Theme settings -->
-		<meta name="color:Background" content="#00060a"/>
-        <meta name="color:Text" content="#0a4a59"/>
+		<meta name="color:Entry Background" content="#000710"/>
+		<meta name="color:Main Background" content="#00060a"/>
+        <meta name="color:Main Text" content="#0a4a59"/>
+		<meta name="color:Mainbar Background" content="#00060a"/>
         <meta name="color:Sidebar Background" content="#000710"/>
         <meta name="color:Sidebar Link" content="#212f32"/>
 		<meta name="color:Sidebar Link Hover" content="#aaccdd"/>
@@ -43,8 +30,8 @@
 			}
 
 			body {
-				background-color: {color:Background};
-				color: {color:Text};
+				background-color: {color:Main Background};
+				color: {color:Main Text};
 				font-size: 18px;
 				line-height: 1.6;
 				margin: 40px auto;
@@ -56,12 +43,12 @@
 				line-height: 1.2;
 			}
 
-			ul {
-				list-style-type: none;
+			.post {
+				background-color: {color:Entry Background};
 			}
 
 			.main {
-				background-color: {color:Sidebar Background};
+				background-color: {color:Mainbar Background};
 				margin-left: var(--size-sidebar-w);
 				padding: 0px 10px;
 			}
@@ -69,6 +56,10 @@
 			@media screen and (max-height: 450px) {
 				.sidebar { padding-top: 15px; }
 				.sidebar a { font-size: 18px; }
+			}
+
+			ul {
+				list-style-type: none;
 			}
 
 			.sidebar {
