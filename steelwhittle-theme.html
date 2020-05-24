@@ -1,0 +1,205 @@
+<!--
+	空和音
+	Steel Whittle Theme - Copyright (c) 2020
+	2020-05-23
+
+	Future plans:
+		Better color scheme
+		Mouse magic stars
+		Background music
+		Post view screen
+		Previous - Next buttons size
+
+		Improve post listing:
+			Boxed with color
+			Date & time top right
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+        <title>{Title}</title>
+        <link rel="shortcut icon" href="{Favicon}">
+        <link rel="alternate" type="application/rss+xml" href="{RSS}">
+        {block:Description}
+            <meta name="description" content="{MetaDescription}" />
+        {/block:Description}
+
+		<!-- Theme settings -->
+		<meta name="color:Background" content="#00060a"/>
+        <meta name="color:Text" content="#0a4a59"/>
+        <meta name="color:Sidebar Background" content="#000710"/>
+        <meta name="color:Sidebar Link" content="#212f32"/>
+		<meta name="color:Sidebar Link Hover" content="#aaccdd"/>
+		<meta name="color:Sidebar Title" content="#4484bf"/>
+
+		<meta name="font:Title" content="Helvetica Neue"/>
+        <meta name="font:Body" content="Arial, Helvetica, sans-serif"/>
+
+		<!-- Style -->
+		<style type="text/css">
+			:root {
+				--size-sidebar-w: 160px;
+			}
+
+			body {
+				background-color: {color:Background};
+				color: {color:Text};
+				font-size: 18px;
+				line-height: 1.6;
+				margin: 40px auto;
+				max-width: 800px;
+				padding: 0 10px;
+			}
+
+			h1, h2, h3, h4 {
+				line-height: 1.2;
+			}
+
+			ul {
+				list-style-type: none;
+			}
+
+			.main {
+				background-color: {color:Sidebar Background};
+				margin-left: var(--size-sidebar-w);
+				padding: 0px 10px;
+			}
+
+			@media screen and (max-height: 450px) {
+				.sidebar { padding-top: 15px; }
+				.sidebar a { font-size: 18px; }
+			}
+
+			.sidebar {
+				background-color: {color:Sidebar Background};
+				color: {color:Sidebar Title};
+				overflow-x: hidden;
+				padding-top: 20px;
+				position: fixed;
+				width: (--size-sidebar-w);
+				z-index: 1;
+			}
+
+			.sidebar a {
+				color: {color:Sidebar Link};
+				display: block;
+				font-size: 12px;
+				text-decoration: none;
+				padding: 6px 8px 6px 16px;
+			}
+
+			.sidebar a:hover {
+				color: {color:Sidebar Link Hover};
+			}
+
+			.sidebar img {
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+			}
+		</style>
+	</head>
+    <body>
+		<div class="sidebar">
+			<a href={BlogURL}>
+				<img src={PortraitURL-128}>
+				<h1>{Title}</h1>
+			</a>
+			<a href="/archive">Archive</a>
+			{block:HasPages}
+				{block:Pages}
+					<a href={URL}>{Label}</a>
+				{/block:Pages}
+			{/block:HasPages}
+
+			{block:PreviousPage}
+				<a href="{PreviousPage}">&#171; Previous</a>
+			{/block:PreviousPage}{block:NextPage}
+				<a href="{NextPage}">Next &#187;</a>
+			{/block:NextPage}
+		</div>
+
+		<div class="main">
+	        {block:Description}
+	            <p id="description">{Description}</p>
+	        {/block:Description}
+
+	        <ul id="posts">
+	            {block:Posts}{block:Text}
+	                    <li class="post text">
+	                        {block:Title}
+	                            <h3><a href="{Permalink}">{Title}</a></h3>
+	                        {/block:Title}{Body}
+	                    </li>
+	                {/block:Text}{block:Photo}
+	                    <li class="post photo">
+	                        <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
+
+	                        {block:Caption}
+	                            <div class="caption">{Caption}</div>
+	                        {/block:Caption}
+	                    </li>
+	                {/block:Photo}{block:Panorama}
+	                    <li class="post panorama">
+	                        {LinkOpenTag}
+	                            <img src="{PhotoURL-Panorama}" alt="{PhotoAlt}"/>
+	                        {LinkCloseTag}{block:Caption}
+	                            <div class="caption">{Caption}</div>
+	                        {/block:Caption}
+	                    </li>
+	                {/block:Panorama}{block:Photoset}
+	                    <li class="post photoset">
+	                        {Photoset-500}{block:Caption}
+	                            <div class="caption">{Caption}</div>
+	                        {/block:Caption}
+	                    </li>
+	                {/block:Photoset}{block:Quote}
+	                    <li class="post quote">
+	                        "{Quote}"
+
+	                        {block:Source}
+	                            <div class="source">{Source}</div>
+	                        {/block:Source}
+	                    </li>
+	                {/block:Quote}{block:Link}
+	                    <li class="post link">
+	                        <a href="{URL}" class="link" {Target}>{Name}</a>
+
+	                        {block:Description}
+	                            <div class="description">{Description}</div>
+	                        {/block:Description}
+	                    </li>
+	                {/block:Link}{block:Chat}
+	                    <li class="post chat">
+	                        {block:Title}
+	                            <h3><a href="{Permalink}">{Title}</a></h3>
+	                        {/block:Title}
+
+	                        <ul class="chat">
+	                            {block:Lines}
+	                                <li class="{Alt} user_{UserNumber}">
+	                                    {block:Label}
+	                                        <span class="label">{Label}</span>
+	                                    {/block:Label}{Line}
+	                                </li>
+	                            {/block:Lines}
+	                        </ul>
+	                    </li>
+	                {/block:Chat}{block:Video}
+	                    <li class="post video">
+	                        {Video-500}{block:Caption}
+	                            <div class="caption">{Caption}</div>
+	                        {/block:Caption}
+	                    </li>
+	                {/block:Video}{block:Audio}
+	                    <li class="post audio">
+	                        {AudioEmbed}{block:Caption}
+	                            <div class="caption">{Caption}</div>
+	                        {/block:Caption}
+	                    </li>
+	                {/block:Audio}{/block:Posts}
+	        </ul>
+		</div>
+    </body>
+</html>
