@@ -1,8 +1,15 @@
-<!-- Steel Whittle Theme - Copyright (c) 2020 空和音 -->
+<!--
+	Steel Whittle Theme
+	@author		空和音
+	@copyright	Copyright (c) 2020-2021
+	@license	All rights reserved.
+-->
 <!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{Title}</title>
         <link rel="shortcut icon" href="{Favicon}">
         <link rel="alternate" type="application/rss+xml" href="{RSS}">
@@ -11,14 +18,14 @@
         {/block:Description}
 
 		<!-- Theme settings -->
-		<meta name="color:Entry Background" content="#000710"/>
-		<meta name="color:Main Background" content="#00060a"/>
-        <meta name="color:Main Text" content="#0a4a59"/>
+		<meta name="color:Entry Background" content="#12282d"/>
+		<meta name="color:Site Background" content="#12282d"/>
+        <meta name="color:Main Text" content="#00060a"/>
 		<meta name="color:Mainbar Background" content="#00060a"/>
-        <meta name="color:Sidebar Background" content="#000710"/>
-        <meta name="color:Sidebar Link" content="#212f32"/>
+        <meta name="color:Sidebar Background" content="#00060a"/>
+        <meta name="color:Sidebar Link" content="#12282d"/>
 		<meta name="color:Sidebar Link Hover" content="#aaccdd"/>
-		<meta name="color:Sidebar Title" content="#4484bf"/>
+		<meta name="color:Sidebar Title" content="#12282d"/>
 
 		<meta name="font:Title" content="Helvetica Neue"/>
         <meta name="font:Body" content="Arial, Helvetica, sans-serif"/>
@@ -26,17 +33,17 @@
 		<!-- Style -->
 		<style type="text/css">
 			:root {
-				--size-sidebar-w: 120px;
+				--size-sidebar-w: 200px;
 			}
 
 			body {
-				background-color: {color:Main Background};
+				background-color: {color:Site Background};
 				color: {color:Main Text};
 				font-size: 18px;
 				line-height: 1.6;
-				margin: 40px auto;
+				/* Make 60px gap on top and center everything inside */
+				margin: 60px auto;
 				max-width: 860px;
-				padding: 0 10px;
 			}
 
 			h1, h2, h3, h4 {
@@ -45,14 +52,19 @@
 
 			.post {
 				background-color: {color:Entry Background};
-				padding: 8px 25px 8px 25px;
-				margin: 0 auto;
+				margin: 50px 50px 50px 50px;
+				padding: 10px 10px 10px 10px;
 			}
 
 			.main {
 				background-color: {color:Mainbar Background};
-				padding: 0px 10px;
-				margin-left: var(--size-sidebar-w);
+				
+				/* Don't let sidebar get on top of content */
+				margin-right: var(--size-sidebar-w);
+				
+				/* Add padding on top and bottom so it's not cut out */
+				padding-top: 15px;
+				padding-bottom: 15px;
 			}
 
 			@media screen and (max-height: 450px) {
@@ -68,10 +80,12 @@
 				background-color: {color:Sidebar Background};
 				color: {color:Sidebar Title};
 				overflow-x: hidden;
-				padding-top: 20px;
 				position: fixed;
-				width: (--size-sidebar-w);
 				z-index: 1;
+				
+				/* Give some space around sidebar */
+				padding: 20px;
+				margin-left: 700px;
 			}
 
 			.sidebar a {
@@ -91,12 +105,16 @@
 				margin-left: auto;
 				margin-right: auto;
 			}
+			
+			#description {
+			    font-style: italic;
+			}
 		</style>
 		
 		<!-- Sparkles -->
 		<script type="text/javascript">
-			var colour = "random"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
-			var sparkles = 50;
+			let colour = "#00f"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
+			let sparkles = 50;
 
 			/*****************************
 			*  Tinkerbell Magic Sparkle *
@@ -104,211 +122,207 @@
 			*  http://www.mf2fm.com/rv  *
 			* DON'T EDIT BELOW THIS BOX *
 			*****************************/
-			var x = (ox = 400);
-			var y = (oy = 300);
-			var swide = 800;
-			var shigh = 600;
-			var sleft = (sdown = 0);
-			var tiny = new Array();
-			var star = new Array();
-			var starv = new Array();
-			var starx = new Array();
-			var stary = new Array();
-			var tinyx = new Array();
-			var tinyy = new Array();
-			var tinyv = new Array();
+			let x = (ox = 400);
+			let y = (oy = 300);
+			let swide = 800;
+			let shigh = 600;
+			let sleft = (sdown = 0);
+			let tiny = new Array();
+			let star = new Array();
+			let starv = new Array();
+			let starx = new Array();
+			let stary = new Array();
+			let tinyx = new Array();
+			let tinyy = new Array();
+			let tinyv = new Array();
 
 			window.onload = function () {
-			if (document.getElementById) {
-				var i, rats, rlef, rdow;
-				for (var i = 0; i < sparkles; i++) {
-				var rats = createDiv(3, 3);
-				rats.style.visibility = "hidden";
-				rats.style.zIndex = "999";
-				document.body.appendChild((tiny[i] = rats));
-				starv[i] = 0;
-				tinyv[i] = 0;
-				var rats = createDiv(5, 5);
-				rats.style.backgroundColor = "transparent";
-				rats.style.visibility = "hidden";
-				rats.style.zIndex = "999";
-				var rlef = createDiv(1, 5);
-				var rdow = createDiv(5, 1);
-				rats.appendChild(rlef);
-				rats.appendChild(rdow);
-				rlef.style.top = "2px";
-				rlef.style.left = "0px";
-				rdow.style.top = "0px";
-				rdow.style.left = "2px";
-				document.body.appendChild((star[i] = rats));
-				}
-				set_width();
-				sparkle();
-			}
+    			if (document.getElementById) {
+    				let i, rats, rlef, rdow;
+    				for (i = 0; i < sparkles; i++) {
+        				rats = createDiv(3, 3);
+        				rats.style.visibility = "hidden";
+        				rats.style.zIndex = "999";
+        				document.body.appendChild((tiny[i] = rats));
+        				starv[i] = 0;
+        				tinyv[i] = 0;
+        				rats = createDiv(5, 5);
+        				rats.style.backgroundColor = "transparent";
+        				rats.style.visibility = "hidden";
+        				rats.style.zIndex = "999";
+        				rlef = createDiv(1, 5);
+        				rdow = createDiv(5, 1);
+        				rats.appendChild(rlef);
+        				rats.appendChild(rdow);
+        				rlef.style.top = "2px";
+        				rlef.style.left = "0px";
+        				rdow.style.top = "0px";
+        				rdow.style.left = "2px";
+        				document.body.appendChild((star[i] = rats));
+    				}
+    				set_width();
+    				sparkle();
+    			}
 			};
 
 			function sparkle() {
-			var c;
-			if (Math.abs(x - ox) > 1 || Math.abs(y - oy) > 1) {
-				ox = x;
-				oy = y;
-				for (c = 0; c < sparkles; c++)
-				if (!starv[c]) {
-					star[c].style.left = (starx[c] = x) + "px";
-					star[c].style.top = (stary[c] = y + 1) + "px";
-					star[c].style.clip = "rect(0px, 5px, 5px, 0px)";
-					star[c].childNodes[0].style.backgroundColor = star[
-					c
-					].childNodes[1].style.backgroundColor =
-					colour == "random" ? newColour() : colour;
-					star[c].style.visibility = "visible";
-					starv[c] = 50;
-					break;
-				}
-			}
-			for (c = 0; c < sparkles; c++) {
-				if (starv[c]) update_star(c);
-				if (tinyv[c]) update_tiny(c);
-			}
-			setTimeout("sparkle()", 40);
+    			let c;
+    			if (Math.abs(x - ox) > 1 || Math.abs(y - oy) > 1) {
+    				ox = x;
+    				oy = y;
+    				for (c = 0; c < sparkles; c++)
+    				if (!starv[c]) {
+    					star[c].style.left = (starx[c] = x) + "px";
+    					star[c].style.top = (stary[c] = y + 1) + "px";
+    					star[c].style.clip = "rect(0px, 5px, 5px, 0px)";
+    					star[c].childNodes[0].style.backgroundColor =
+    					    star[c].childNodes[1].style.backgroundColor =
+    					    colour == "random" ? newColour() : colour;
+    					star[c].style.visibility = "visible";
+    					starv[c] = 50;
+    					break;
+    				}
+    			}
+    			for (c = 0; c < sparkles; c++) {
+    				if (starv[c]) update_star(c);
+    				if (tinyv[c]) update_tiny(c);
+    			}
+    			setTimeout("sparkle()", 40);
 			}
 
 			function update_star(i) {
-			if (--starv[i] == 25) star[i].style.clip = "rect(1px, 4px, 4px, 1px)";
-			if (starv[i]) {
-				stary[i] += 1 + Math.random() * 3;
-				starx[i] += ((i % 5) - 2) / 5;
-				if (stary[i] < shigh + sdown) {
-				star[i].style.top = stary[i] + "px";
-				star[i].style.left = starx[i] + "px";
-				} else {
-				star[i].style.visibility = "hidden";
-				starv[i] = 0;
-				return;
-				}
-			} else {
-				tinyv[i] = 50;
-				tiny[i].style.top = (tinyy[i] = stary[i]) + "px";
-				tiny[i].style.left = (tinyx[i] = starx[i]) + "px";
-				tiny[i].style.width = "2px";
-				tiny[i].style.height = "2px";
-				tiny[i].style.backgroundColor = star[i].childNodes[0].style.backgroundColor;
-				star[i].style.visibility = "hidden";
-				tiny[i].style.visibility = "visible";
-			}
+    			if (--starv[i] == 25) star[i].style.clip = "rect(1px, 4px, 4px, 1px)";
+    			if (starv[i]) {
+    				stary[i] += 1 + Math.random() * 3;
+    				starx[i] += ((i % 5) - 2) / 5;
+    				if (stary[i] < shigh + sdown) {
+    				star[i].style.top = stary[i] + "px";
+    				star[i].style.left = starx[i] + "px";
+    				} else {
+    				star[i].style.visibility = "hidden";
+    				starv[i] = 0;
+    				return;
+    				}
+    			} else {
+    				tinyv[i] = 50;
+    				tiny[i].style.top = (tinyy[i] = stary[i]) + "px";
+    				tiny[i].style.left = (tinyx[i] = starx[i]) + "px";
+    				tiny[i].style.width = "2px";
+    				tiny[i].style.height = "2px";
+    				tiny[i].style.backgroundColor = star[i].childNodes[0].style.backgroundColor;
+    				star[i].style.visibility = "hidden";
+    				tiny[i].style.visibility = "visible";
+    			}
 			}
 
 			function update_tiny(i) {
-			if (--tinyv[i] == 25) {
-				tiny[i].style.width = "1px";
-				tiny[i].style.height = "1px";
-			}
-			if (tinyv[i]) {
-				tinyy[i] += 1 + Math.random() * 3;
-				tinyx[i] += ((i % 5) - 2) / 5;
-				if (tinyy[i] < shigh + sdown) {
-				tiny[i].style.top = tinyy[i] + "px";
-				tiny[i].style.left = tinyx[i] + "px";
-				} else {
-				tiny[i].style.visibility = "hidden";
-				tinyv[i] = 0;
-				return;
-				}
-			} else tiny[i].style.visibility = "hidden";
+    			if (--tinyv[i] == 25) {
+    				tiny[i].style.width = "1px";
+    				tiny[i].style.height = "1px";
+    			}
+    			if (tinyv[i]) {
+    				tinyy[i] += 1 + Math.random() * 3;
+    				tinyx[i] += ((i % 5) - 2) / 5;
+    				if (tinyy[i] < shigh + sdown) {
+    				tiny[i].style.top = tinyy[i] + "px";
+    				tiny[i].style.left = tinyx[i] + "px";
+    				} else {
+    				tiny[i].style.visibility = "hidden";
+    				tinyv[i] = 0;
+    				return;
+    				}
+    			} else tiny[i].style.visibility = "hidden";
 			}
 
 			document.onmousemove = mouse;
 			function mouse(e) {
-			if (e) {
-				y = e.pageY;
-				x = e.pageX;
-			} else {
-				set_scroll();
-				y = event.y + sdown;
-				x = event.x + sleft;
-			}
+    			if (e) {
+    				y = e.pageY;
+    				x = e.pageX;
+    			} else {
+    				set_scroll();
+    				y = event.y + sdown;
+    				x = event.x + sleft;
+    			}
 			}
 
 			window.onscroll = set_scroll;
 			function set_scroll() {
-			if (typeof self.pageYOffset == "number") {
-				sdown = self.pageYOffset;
-				sleft = self.pageXOffset;
-			} else if (
-				document.body &&
-				(document.body.scrollTop || document.body.scrollLeft)
-			) {
-				sdown = document.body.scrollTop;
-				sleft = document.body.scrollLeft;
-			} else if (
-				document.documentElement &&
-				(document.documentElement.scrollTop || document.documentElement.scrollLeft)
-			) {
-				sleft = document.documentElement.scrollLeft;
-				sdown = document.documentElement.scrollTop;
-			} else {
-				sdown = 0;
-				sleft = 0;
-			}
+    			if (typeof self.pageYOffset == "number") {
+    				sdown = self.pageYOffset;
+    				sleft = self.pageXOffset;
+    			} else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+    				sdown = document.body.scrollTop;
+    				sleft = document.body.scrollLeft;
+    			} else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+    				sleft = document.documentElement.scrollLeft;
+    				sdown = document.documentElement.scrollTop;
+    			} else {
+    				sdown = 0;
+    				sleft = 0;
+    			}
 			}
 
 			window.onresize = set_width;
 			function set_width() {
-			var sw_min = 999999;
-			var sh_min = 999999;
-			if (document.documentElement && document.documentElement.clientWidth) {
-				if (document.documentElement.clientWidth > 0)
-				sw_min = document.documentElement.clientWidth;
-				if (document.documentElement.clientHeight > 0)
-				sh_min = document.documentElement.clientHeight;
-			}
-			if (typeof self.innerWidth == "number" && self.innerWidth) {
-				if (self.innerWidth > 0 && self.innerWidth < sw_min)
-				sw_min = self.innerWidth;
-				if (self.innerHeight > 0 && self.innerHeight < sh_min)
-				sh_min = self.innerHeight;
-			}
-			if (document.body.clientWidth) {
-				if (document.body.clientWidth > 0 && document.body.clientWidth < sw_min)
-				sw_min = document.body.clientWidth;
-				if (document.body.clientHeight > 0 && document.body.clientHeight < sh_min)
-				sh_min = document.body.clientHeight;
-			}
-			if (sw_min == 999999 || sh_min == 999999) {
-				sw_min = 800;
-				sh_min = 600;
-			}
-			swide = sw_min;
-			shigh = sh_min;
+    			let sw_min = 999999;
+    			let sh_min = 999999;
+    			if (document.documentElement && document.documentElement.clientWidth) {
+    				if (document.documentElement.clientWidth > 0)
+    				sw_min = document.documentElement.clientWidth;
+    				if (document.documentElement.clientHeight > 0)
+    				sh_min = document.documentElement.clientHeight;
+    			}
+    			if (typeof self.innerWidth == "number" && self.innerWidth) {
+    				if (self.innerWidth > 0 && self.innerWidth < sw_min)
+    				sw_min = self.innerWidth;
+    				if (self.innerHeight > 0 && self.innerHeight < sh_min)
+    				sh_min = self.innerHeight;
+    			}
+    			if (document.body.clientWidth) {
+    				if (document.body.clientWidth > 0 && document.body.clientWidth < sw_min)
+    				sw_min = document.body.clientWidth;
+    				if (document.body.clientHeight > 0 && document.body.clientHeight < sh_min)
+    				sh_min = document.body.clientHeight;
+    			}
+    			if (sw_min == 999999 || sh_min == 999999) {
+    				sw_min = 800;
+    				sh_min = 600;
+    			}
+    			swide = sw_min;
+    			shigh = sh_min;
 			}
 
 			function createDiv(height, width) {
-			var div = document.createElement("div");
-			div.style.position = "absolute";
-			div.style.height = height + "px";
-			div.style.width = width + "px";
-			div.style.overflow = "hidden";
-			return div;
+    			let div = document.createElement("div");
+    			div.style.position = "absolute";
+    			div.style.height = height + "px";
+    			div.style.width = width + "px";
+    			div.style.overflow = "hidden";
+    			return div;
 			}
 
 			function newColour() {
-			var c = new Array();
-			c[0] = 255;
-			c[1] = Math.floor(Math.random() * 256);
-			c[2] = Math.floor(Math.random() * (256 - c[1] / 2));
-			c.sort(function () {
-				return 0.5 - Math.random();
-			});
-			return "rgb(" + c[0] + ", " + c[1] + ", " + c[2] + ")";
+    			let c = new Array();
+    			c[0] = 255;
+    			c[1] = Math.floor(Math.random() * 256);
+    			c[2] = Math.floor(Math.random() * (256 - c[1] / 2));
+    			c.sort(function () {
+    				return 0.5 - Math.random();
+    			});
+    			return "rgb(" + c[0] + ", " + c[1] + ", " + c[2] + ")";
 			}
 		</script>
 	</head>
     <body>
-		<div class="sidebar">
+        <div class="sidebar">
 			<a href={BlogURL}>
 				<img src={PortraitURL-128}>
 				<h1>{Title}</h1>
 			</a>
+			{block:Description}
+	            <p id="description">{Description}</p>
+	        {/block:Description}
 			<a href="/archive">Archive</a>
 			{block:HasPages}
 				{block:Pages}
@@ -322,20 +336,18 @@
 				<a href="{NextPage}">Next &#187;</a>
 			{/block:NextPage}
 		</div>
-
 		<div class="main">
-	        {block:Description}
-	            <p id="description">{Description}</p>
-	        {/block:Description}
-
 	        <ul id="posts">
-	            {block:Posts}{block:Text}
+	            {block:Posts}
+	                {block:Text}
 	                    <li class="post text">
 	                        {block:Title}
 	                            <h3><a href="{Permalink}">{Title}</a></h3>
 	                        {/block:Title}{Body}
 	                    </li>
-	                {/block:Text}{block:Photo}
+	                {/block:Text}
+	                
+	                {block:Photo}
 	                    <li class="post photo">
 	                        <img src="{PhotoURL-500}" alt="{PhotoAlt}"/>
 
@@ -343,7 +355,9 @@
 	                            <div class="caption">{Caption}</div>
 	                        {/block:Caption}
 	                    </li>
-	                {/block:Photo}{block:Panorama}
+	                {/block:Photo}
+	                
+	                {block:Panorama}
 	                    <li class="post panorama">
 	                        {LinkOpenTag}
 	                            <img src="{PhotoURL-Panorama}" alt="{PhotoAlt}"/>
@@ -351,13 +365,17 @@
 	                            <div class="caption">{Caption}</div>
 	                        {/block:Caption}
 	                    </li>
-	                {/block:Panorama}{block:Photoset}
+	                {/block:Panorama}
+	                
+	                {block:Photoset}
 	                    <li class="post photoset">
 	                        {Photoset-500}{block:Caption}
 	                            <div class="caption">{Caption}</div>
 	                        {/block:Caption}
 	                    </li>
-	                {/block:Photoset}{block:Quote}
+	                {/block:Photoset}
+	                
+	                {block:Quote}
 	                    <li class="post quote">
 	                        "{Quote}"
 
@@ -365,7 +383,9 @@
 	                            <div class="source">{Source}</div>
 	                        {/block:Source}
 	                    </li>
-	                {/block:Quote}{block:Link}
+	                {/block:Quote}
+	                
+	                {block:Link}
 	                    <li class="post link">
 	                        <a href="{URL}" class="link" {Target}>{Name}</a>
 
@@ -373,7 +393,9 @@
 	                            <div class="description">{Description}</div>
 	                        {/block:Description}
 	                    </li>
-	                {/block:Link}{block:Chat}
+	                {/block:Link}
+	                
+	                {block:Chat}
 	                    <li class="post chat">
 	                        {block:Title}
 	                            <h3><a href="{Permalink}">{Title}</a></h3>
@@ -389,19 +411,24 @@
 	                            {/block:Lines}
 	                        </ul>
 	                    </li>
-	                {/block:Chat}{block:Video}
+	                {/block:Chat}
+	                
+	                {block:Video}
 	                    <li class="post video">
 	                        {Video-500}{block:Caption}
 	                            <div class="caption">{Caption}</div>
 	                        {/block:Caption}
 	                    </li>
-	                {/block:Video}{block:Audio}
+	                {/block:Video}
+	                
+	                {block:Audio}
 	                    <li class="post audio">
 	                        {AudioEmbed}{block:Caption}
 	                            <div class="caption">{Caption}</div>
 	                        {/block:Caption}
 	                    </li>
-	                {/block:Audio}{/block:Posts}
+	                {/block:Audio}
+	            {/block:Posts}
 	        </ul>
 		</div>
     </body>
